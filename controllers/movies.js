@@ -23,11 +23,13 @@ const getSingle = async (req ,res) => {
 const createMovie = async (req ,res) => {
   //#swagger.tags ['contacts']
     const user = {
-       firstName: req.body.firstName,
-       lastName: req.body.lastName,
-       email: req.body.email,
-       favoriteColor: req.body.favoriteColor,
-       birthday: req.body.birthday
+       movieId: req.body.movieId,
+       movieName: req.body.movieName,
+       movieYear: req.body.movieYear,
+       movieTags: req.body.movieTags,
+       movieDescription: req.body.movieDescription,
+       movieProducer: req.body.movieProducer,
+       movieCountry: req.body. movieCountry,
     };
     const response = await mongodb.getDatabase().db().collection('movies').insertOne(user);
     if (response.acknowledged > 0) {
@@ -42,11 +44,13 @@ const updateMovie = async (req ,res) => {
   //#swagger.tags ['contacts']
     const userId = new ObjectId(req.params.id);
     const user = {
-       firstName: req.body.firstName,
-       lastName: req.body.lastName,
-       email: req.body.email,
-       favoriteColor: req.body.favoriteColor,
-       birthday: req.body.birthday,
+       movieId: req.body.movieId,
+       movieName: req.body.movieId,
+       movieYear: req.body.movieYear,
+       movieTags: req.body.movieTags,
+       movieDescription: req.body.movieDescription,
+       movieProducer: req.body.movieProducer,
+       movieCountry: req.body.movieCountry,
       
     };
     const response = await mongodb.getDatabase().db().collection('movies').replaceOne({_id: userId} ,user);
@@ -66,7 +70,7 @@ const deleteMovie = async (req ,res) => {
         res.status(204).send();
     }
     else {
-        res.status(500).json(response.console.error || 'Some error occurred while deleting the Contact');
+        res.status(500).json(response.console.error || 'Some error occurred while deleting the Movies');
     }
 };
 
