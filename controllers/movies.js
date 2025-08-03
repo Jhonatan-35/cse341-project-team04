@@ -62,16 +62,18 @@ const updateMovie = async (req ,res) => {
     }
 };
 
-const deleteMovie = async (req ,res) => {
-  //#swagger.tags ['movies']
-    const userId = new ObjectId(req.params.id);
-    const response = await mongodb.getDatabase().db().collection('movies').deleteOne({_id: userId});
-    if (response.deleteCount > 0) {
-        res.status(204).send();
-    }
-    else {
-        res.status(500).json(response.console.error || 'Some error occurred while deleting the Movies');
-    }
+const deleteMovie = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json('Must use a valid Movie id to delete a Movie.');
+  }
+  const userId = new ObjectId(req.params.id);
+  const response = await mongodb.getDatabase().db().collection('movies').deleteOne({ _id: userId });
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while deleting the movie.');
+  }
 };
 
 module.exports = {

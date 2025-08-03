@@ -62,16 +62,18 @@ const updateUser = async (req ,res) => {
     }
 };
 
-const deleteUser = async (req ,res) => {
-  //#swagger.tags ['users']
-    const userId = new ObjectId(req.params.id);
-    const response = await mongodb.getDatabase().db().collection('users').deleteOne({_id: userId});
-    if (response.deleteCount > 0) {
-        res.status(204).send();
-    }
-    else {
-        res.status(500).json(response.console.error || 'Some error occurred while deleting the User');
-    }
+const deleteUser = async (req, res) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json('Must use a valid User id to delete a User.');
+  }
+  const userId = new ObjectId(req.params.id);
+  const response = await mongodb.getDatabase().db().collection('users').deleteOne({ _id: userId });
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while deleting the User.');
+  }
 };
 
 module.exports = {
