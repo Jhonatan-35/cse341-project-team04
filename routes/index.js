@@ -1,12 +1,24 @@
 const router = require('express').Router();
-router.get('/',(req, res)=> {
+const passport = require('passport');
 
 router.use('/', require('./swagger'));
 
-    res.send('Hello world');
-});
-
 router.use('/movies',require('./movies'));
+
 router.use('/users',require('./users'));
+
+router.use('/reviews',require('./reviews'));
+
+router.use('/watchlist',require('./watchlist'));
+
+router.get('/login', passport.authenticate('github'),(req, res) => {});
+
+router.get('/logout', function(req, res , next) {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+
+});
+});
 
 module.exports = router

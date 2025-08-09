@@ -45,7 +45,7 @@ const updateMovie = async (req ,res) => {
     const userId = new ObjectId(req.params.id);
     const user = {
        movieId: req.body.movieId,
-       movieName: req.body.movieId,
+       movieName: req.body.movieName,
        movieYear: req.body.movieYear,
        movieTags: req.body.movieTags,
        movieDescription: req.body.movieDescription,
